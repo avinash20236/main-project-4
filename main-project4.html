@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KBC Quiz App - Avinash</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0d1b2a;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      background-color: #1b263b;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00b4d8;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    h1 {
+      color: gold;
+      margin-bottom: 1rem;
+    }
+
+    #question {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    #options button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.8rem;
+      border: none;
+      background-color: #0077b6;
+      color: white;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #options button:hover {
+      background-color: #0096c7;
+    }
+
+    #next-btn {
+      margin-top: 1rem;
+      padding: 0.6rem 1.5rem;
+      background-color: gold;
+      border: none;
+      color: black;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #score {
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎙️ Kaun Banega Crorepati</h1>
+    <div id="quiz-box">
+      <div id="question">Loading question...</div>
+      <div id="options"></div>
+      <button id="next-btn">Next Question</button>
+      <div id="score">Score: 0</div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Which of these is a front-end programming language?",
+        options: ["Node.js", "Python", "HTML", "MongoDB"],
+        answer: "HTML"
+      },
+      {
+        question: "What does CSS stand for?",
+        options: [
+          "Cascading Style Sheets",
+          "Colorful Style System",
+          "Creative Styling Syntax",
+          "Computer Styled Structure"
+        ],
+        answer: "Cascading Style Sheets"
+      },
+      {
+        question: "Who is known as the father of computers?",
+        options: ["Bill Gates", "Charles Babbage", "Tim Berners-Lee", "Steve Jobs"],
+        answer: "Charles Babbage"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("next-btn");
+    const scoreEl = document.getElementById("score");
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => checkAnswer(option);
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const correct = questions[currentQuestion].answer;
+      if (selected === correct) {
+        score++;
+      }
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        showFinalScore();
+      }
+      scoreEl.textContent = `Score: ${score}`;
+    }
+
+    function showFinalScore() {
+      questionEl.textContent = "🎉 Quiz Completed!";
+      optionsEl.innerHTML = "";
+      nextBtn.style.display = "none";
+    }
+
+    nextBtn.onclick = () => {
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      }
+    };
+
+    // Start the quiz
+    showQuestion();
+  </script>
+</body>
+</html>
